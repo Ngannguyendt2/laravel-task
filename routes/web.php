@@ -14,9 +14,13 @@
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('index');
+    return view('home');
 });
-Route::get('/tasks','TaskController@index')->name('tasks.index');
-
-Route::get('/add','TaskController@add')->name('tasks.add');
-Route::post('/index','TaskController@insert')->name('tasks.insert');
+Route::prefix('tasks')->group(function (){
+    Route::get('/','TaskController@index')->name('tasks.index');
+    Route::get('/create','TaskController@create')->name('tasks.create');
+    Route::post('/create','TaskController@store')->name('tasks.store');
+    Route::get('/{id}/destroy','TaskController@destroy')->name('tasks.destroy');
+    Route::get('/{id}/edit','TaskController@edit')->name('tasks.edit');
+    Route::post('/{id}/update','TaskController@update')->name('tasks.update');
+});
